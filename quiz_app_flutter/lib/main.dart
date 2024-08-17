@@ -15,7 +15,7 @@ class QuizApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         scaffoldBackgroundColor: Color(0xFF8B64D3),
       ),
-      home: HomeScreen(),
+      home: HomeScreen(totalPoints: 0), // Provide default value for totalPoints
     );
   }
 }

@@ -16,17 +16,16 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF8B64D3),
+      backgroundColor: Color(0xFF8B64D3), // Match the theme color
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                isCorrect
-                    ? 'assets/celebration.png' // Image for correct answer
-                    : 'assets/sad_face.png', // Image for wrong answer
-                height: 150,
+              Icon(
+                isCorrect ? Icons.check_circle_outline : Icons.cancel_outlined,
+                size: 150,
+                color: isCorrect ? Colors.green : Colors.red,
               ),
               SizedBox(height: 20),
               Text(
@@ -62,7 +61,7 @@ class ResultScreen extends StatelessWidget {
                   Icon(Icons.attach_money, color: Colors.yellow),
                   SizedBox(width: 5),
                   Text(
-                    '\$$points',
+                    '$points Coins',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ],

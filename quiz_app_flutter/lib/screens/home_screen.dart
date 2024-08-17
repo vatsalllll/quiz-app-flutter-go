@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  final int totalPoints; // Pass the total points from previous quizzes
+
+  HomeScreen({this.totalPoints = 0}); // Initialize with 0 if not provided
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +44,10 @@ class HomeScreen extends StatelessWidget {
             Text(
               'Pattern Sniper™ Quiz',
               style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             SizedBox(height: 10),
             Padding(
@@ -66,6 +76,18 @@ class HomeScreen extends StatelessWidget {
                 ),
                 textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.monetization_on, color: Colors.yellow),
+                SizedBox(width: 5),
+                Text(
+                  '${widget.totalPoints} Coins',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ],
             ),
           ],
         ),

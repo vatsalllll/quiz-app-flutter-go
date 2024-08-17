@@ -17,12 +17,14 @@ class _QuizScreenState extends State<QuizScreen> {
       questionText: 'Will AUD/USD price go up or down?',
       options: ['Up', 'Down'],
       correctAnswer: 'Up',
+      imagePath: 'assets/image-1.webp', // Correct the image path
     ),
     Question(
       situation: 'Alphabet Inc stock price is showing a bear flag pattern.',
       questionText: 'Buy or Sell?',
       options: ['Buy', 'Sell'],
       correctAnswer: 'Sell',
+      imagePath: 'assets/image-2.png', // Another image path
     ),
     Question(
       situation:
@@ -30,12 +32,14 @@ class _QuizScreenState extends State<QuizScreen> {
       questionText: 'Will the US dollar strengthen or weaken?',
       options: ['Strengthen', 'Weaken'],
       correctAnswer: 'Strengthen',
+      imagePath: 'assets/image-3.png', // Another image path
     ),
     Question(
       situation: 'Oil prices have fallen by 20% in the past week.',
       questionText: 'Will the stock price of ExxonMobil go up or down?',
       options: ['Up', 'Down'],
       correctAnswer: 'Down',
+      imagePath: 'assets/image-4.jpg', // Another image path
     ),
     Question(
       situation:
@@ -43,6 +47,7 @@ class _QuizScreenState extends State<QuizScreen> {
       questionText: 'Buy or Sell Apple stock?',
       options: ['Buy', 'Sell'],
       correctAnswer: 'Buy',
+      imagePath: 'assets/image-5.webp', // Another image path
     ),
   ];
 
@@ -89,10 +94,11 @@ class _QuizScreenState extends State<QuizScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                // Redirect to home page
+                // Pass the total points to the HomeScreen
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => HomeScreen(totalPoints: points)),
                   (Route<dynamic> route) => false,
                 );
               },
@@ -113,33 +119,38 @@ class _QuizScreenState extends State<QuizScreen> {
         title:
             Text('Question ${currentQuestionIndex + 1} of ${questions.length}'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Situation: ${currentQuestion.situation}',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Situation: ${currentQuestion.situation}',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          Image.asset('assets/chart.png'), // Using image instead of icon
-          SizedBox(height: 20),
-          Text(
-            currentQuestion.questionText,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          ...currentQuestion.options.map((option) {
-            return AnswerButton(
-              text: option,
-              onTap: () {
-                checkAnswer(option);
-              },
-            );
-          }).toList(),
-        ],
+            Image.asset(
+              currentQuestion.imagePath, // Use the image path from the question
+              height: 200, // Adjust the height to fit within the screen
+            ),
+            SizedBox(height: 20),
+            Text(
+              currentQuestion.questionText,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            ...currentQuestion.options.map((option) {
+              return AnswerButton(
+                text: option,
+                onTap: () {
+                  checkAnswer(option);
+                },
+              );
+            }).toList(),
+          ],
+        ),
       ),
     );
   }
