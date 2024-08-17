@@ -13,6 +13,7 @@ class QuizApp extends StatelessWidget {
       title: 'Pattern Sniper™ Quiz',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        scaffoldBackgroundColor: Color(0xFF8B64D3),
       ),
       home: HomeScreen(),
     );
