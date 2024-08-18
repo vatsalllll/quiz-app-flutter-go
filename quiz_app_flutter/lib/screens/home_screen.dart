@@ -1,94 +1,128 @@
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
+import 'login_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  final int totalPoints; // Pass the total points from previous quizzes
+class HomeScreen extends StatelessWidget {
+  final String? userEmail;
+  final int totalPoints;
+  final int currentLevel;
 
-  HomeScreen({this.totalPoints = 0}); // Initialize with 0 if not provided
+  HomeScreen({
+    this.userEmail,
+    this.totalPoints = 0,
+    this.currentLevel = 1,
+  });
 
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pattern Sniper™ Quiz'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 186, 61, 235),
         elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.my_location, color: Colors.black), // Aim pointer icon
+            SizedBox(width: 8),
+            Text(
+              'Pattern Sniper™ Quiz',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {},
+          Row(
+            children: [
+              Icon(Icons.monetization_on, color: Colors.black), // Coin icon
+              SizedBox(width: 4),
+              Text(
+                '$totalPoints', // Display total points near the coin icon
+                style: TextStyle(fontSize: 18, color: Colors.black),
+              ),
+              SizedBox(width: 10),
+              if (userEmail == null)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white, // Text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text('Login'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
+                )
+              else
+                TextButton(
+                  child: Text('Logout', style: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                    // TODO: Implement logout functionality
+                  },
+                ),
+            ],
           ),
         ],
       ),
-      body: Center(
+      body: Container(
+        width: double.infinity,
+        color: const Color.fromARGB(
+            255, 216, 109, 235), // Apply a single consistent background color
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 3),
-              ),
-              child: Center(
-                child: Icon(Icons.adjust, size: 50, color: Colors.white),
-              ),
-            ),
-            SizedBox(height: 20),
+            Spacer(),
             Text(
-              'Pattern Sniper™ Quiz',
+              userEmail != null
+                  ? 'Welcome, $userEmail!'
+                  : 'Welcome to Pattern Sniper™ Quiz',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                'Improve your pattern recognition skills through interactive quizzes.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.white70),
-              ),
+            SizedBox(height: 20),
+            Text(
+              'Current Level: $currentLevel',
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
+            Text(
+              'Total Points: $totalPoints',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            Spacer(),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.greenAccent[400], // Button text color
+                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+              child: Text(
+                'Start Quiz',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => QuizScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => QuizScreen(level: currentLevel),
+                  ),
                 );
               },
-              child: Text("Let's Go"),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.purple,
-                backgroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
             ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.monetization_on, color: Colors.yellow),
-                SizedBox(width: 5),
-                Text(
-                  '${widget.totalPoints} Coins',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ],
-            ),
+            Spacer(),
           ],
         ),
       ),

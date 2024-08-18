@@ -51,6 +51,9 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
+
+    // Don't send the password back to the client
+    user.Password = ""
     json.NewEncoder(w).Encode(user)
 }
 
@@ -74,6 +77,8 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    // Don't send the password back to the client
+    foundUser.Password = ""
     json.NewEncoder(w).Encode(foundUser)
 }
 
@@ -91,6 +96,9 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
         http.Error(w, err.Error(), http.StatusNotFound)
         return
     }
+
+    // Don't send the password back to the client
+    user.Password = ""
     json.NewEncoder(w).Encode(user)
 }
 
@@ -118,5 +126,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    // Don't send the password back to the client
+    user.Password = ""
     json.NewEncoder(w).Encode(user)
 }
